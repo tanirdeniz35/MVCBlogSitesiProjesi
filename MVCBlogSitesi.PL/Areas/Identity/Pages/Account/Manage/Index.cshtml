@@ -1,0 +1,51 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        @if (!string.IsNullOrEmpty (Model.Input.PhotoUrl))
+        {
+            <img src="@Model.Input.PhotoUrl" class="card-img-top" alt="@Model.Input.NameSurname"   />
+        }
+        else
+        {
+            <img src="/images/blank.png" class="card-img-top" alt="@Model.Input.NameSurname"   />
+        }
+
+        <form id="profile-form" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Username" class="form-control" placeholder="Kullanıcı adı giriniz."   />
+                <label asp-for="Username" class="form-label"></label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.NameSurname" class="form-control" placeholder="Ad soyad giriniz." />
+                <label asp-for="Input.NameSurname" class="form-label"></label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Bio" class="form-control" placeholder="Bio giriniz." />
+                <label asp-for="Input.Bio" class="form-label"></label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
+                <label asp-for="Input.PhoneNumber" class="form-label"></label>
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Input.Photo" type="file" class="form-check-file" id="filehcek"  >
+             
+            </div>
+            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Kaydet</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

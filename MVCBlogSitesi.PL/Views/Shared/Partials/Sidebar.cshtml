@@ -1,0 +1,54 @@
+﻿@using BlogSitesi.DAL.Data
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<MVCBlogSitesiPLUser> SignInManager
+
+    @inject UserManager<MVCBlogSitesiPLUser> UserManager
+
+@{
+    List<BlogSitesi.PL.Models.CategoryViewModel> categories = (List<BlogSitesi.PL.Models.CategoryViewModel>)ViewData["Categories"];
+    var user =await UserManager.GetUserAsync(User);
+}
+<!-- Sidebar Widgets Column -->
+<div class="col-md-4">
+
+    <!-- Search Widget -->
+    <div class="card my-4">
+        <h5 class="card-header">Ara</h5>
+        <div class="card-body">
+            @using (Html.BeginForm("Search", "Home", method: FormMethod.Get))
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="input-group">
+                    <input name="q" type="text" class="form-control" placeholder="Aramak için..." />
+                    <span class="input-group-btn">
+                        <input class="btn btn-secondary" type="submit" value="Ara!" />
+                    </span>
+                </div>
+            }
+        </div>
+    </div>
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <!-- Side Widget -->
+        <div class="card my-4">
+            <div class="card-body">
+                <a href="/Identity/Account/Manage" >   @user.NameSurname </a>
+            </div>
+        </div>
+    }
+
+    <!-- Categories Widget -->
+    <div class="card my-4">
+        <h5 class="card-header">Konular</h5>
+        <nav class="list-group">
+            @foreach (var item in categories)
+            {
+                <a asp-action="Category" class="list-group-item list-group-item-action" asp-route-id="@item.Id">@item.Name</a>
+
+
+            }
+        </nav>
+    </div>
+</div>

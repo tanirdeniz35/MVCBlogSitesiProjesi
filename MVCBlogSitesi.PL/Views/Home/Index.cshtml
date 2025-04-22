@@ -1,0 +1,44 @@
+﻿@* @{
+    ViewBag.PageTitle = "Homepage";
+} *@
+ @model List<BlogSitesi.PL.Models.ArticleViewModel>
+<div class="row">
+
+    <!-- Blog Entries Column -->
+    <div class="col-md-8">
+
+  
+
+        @foreach (var Entry in Model)
+        {  
+            <!-- Blog Post -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">@Entry.Title</h2>
+                    <p class="card-text">@Html.Raw(Entry.Content.Length > 200 ? Entry.Content.Substring(0, 200) : Entry.Content)</p>
+               
+                    <a asp-action="ReadMore" asp-route-id="@Entry.Id">Daha Fazla  &rarr;</a> |
+                </div>
+                <div class="card-footer text-muted">
+
+                    <span class="badge badge-pill bg-secondary">
+                        <a asp-action="Category" class="text-white" asp-route-id="@Entry.CategoryId">@Entry.Category.Name</a>
+                        
+                      </span>
+
+                    Posted on <span class="badge badge-pill bg-success text-white">@Entry.PublishDate.ToLongDateString()</span>
+                    by <span class="badge badge-pill bg-primary text-white">
+                        <a asp-action="Author" class="text-white" asp-route-id="@Entry.MVCBlogSitesiProjesiUserId">@Entry.MVCBlogSitesiProjesiUser.NameSurname</a>
+                    </span>
+                    Okunma sayısı
+                    <span class="badge badge-pill bg-secondary"> @Entry.ReadCount </span>
+                </div>
+            </div>
+        }
+
+    
+    </div>
+
+    <partial name="/Views/Shared/Partials/Sidebar.cshtml" />
+
+</div>
